@@ -1,11 +1,16 @@
 import type { NextConfig } from "next";
 
-const datetime = new Date().toISOString();
+["APP_SECRET", "APP_BACKEND_DNS"].forEach((key: string) => {
+  if (typeof process.env[key] === "undefined") {
+    throw Error(`Environment [${key}] is required`);
+  }
+});
 
+const datetime = new Date().toISOString();
 const nextConfig: NextConfig = {
   reactStrictMode: process.env.NODE_ENV === "development",
   reactCompiler: true,
-  cacheComponents: false,
+  cacheComponents: true,
   cleanDistDir: true,
   poweredByHeader: false,
   generateEtags: true,

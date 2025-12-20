@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { MoonIcon, SunIcon } from "@/icons/theme.icon";
 import { cn } from "@/libs/cn.lib";
 
-export const ThemeSwitchComponent = () => {
+export const ThemeSwith = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
 
@@ -26,17 +26,16 @@ export const ThemeSwitchComponent = () => {
   return (
     <Switch
       defaultSelected
-      color="default"
-      size="lg"
-      isSelected={theme === "light"}
-      onValueChange={(isSelected) => setTheme(isSelected ? "light" : "dark")}
-      endContent={<SunIcon className="w-4 h-4" />}
-      startContent={<MoonIcon className="w-4 h-4" />}
+      color="primary"
+      size="sm"
+      isSelected={theme === "dark"}
+      onValueChange={(isSelected) => setTheme(isSelected ? "dark" : "light")}
+      endContent={<MoonIcon className="w-2 h-2" />}
       thumbIcon={({ isSelected, className }) =>
         isSelected ? (
-          <SunIcon className={cn("w-4 h-4", className)} />
+          <MoonIcon className={cn("w-3 h-3", className)} />
         ) : (
-          <MoonIcon className={cn("w-4 h-4", className)} />
+          <SunIcon className={cn("w-3 h-3", className)} />
         )
       }
       aria-label="Toggle theme"

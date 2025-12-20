@@ -1,30 +1,30 @@
-import 'server-only';
-import crypto from 'crypto';
+import "server-only";
+import crypto from "crypto";
 
-const APP_SECRET = process.env.APP_SECRET || 'your-secret-key';
+const APP_SECRET = process.env.APP_SECRET || "your-secret-key";
 
 function generateUserId(): string {
-  return crypto.randomBytes(16).toString('hex');
+  return crypto.randomBytes(16).toString("hex");
 }
 
 function generateMD5(input: string): string {
-  return crypto.createHash('md5').update(input).digest('hex');
+  return crypto.createHash("md5").update(input).digest("hex");
 }
 
-export function make(input?: string|undefined): string {
-  const _key_ = `${generateUserId()}:${Date.now().toString()}:${crypto.randomBytes(16).toString('hex')}@${input}`;
+export function make(input?: string | undefined): string {
+  const _key_ = `${generateUserId()}:${Date.now().toString()}:${crypto.randomBytes(16).toString("hex")}@${input}`;
   const unique = generateMD5(_key_);
 
   const signature = crypto
-    .createHmac('sha256', APP_SECRET)
+    .createHmac("sha256", APP_SECRET)
     .update(unique)
-    .digest('hex');
+    .digest("hex");
 
   return `${unique}.${signature}`;
 }
 
 export function verify(uid: string): boolean {
-  const parts = uid.split('.');
+  const parts = uid.split(".");
 
   if (parts.length !== 2) {
     return false;
@@ -32,12 +32,12 @@ export function verify(uid: string): boolean {
 
   const [data, signature] = parts;
   const expectedSignature = crypto
-      .createHmac('sha256', APP_SECRET)
-      .update(data)
-      .digest('hex');
+    .createHmac("sha256", APP_SECRET)
+    .update(data)
+    .digest("hex");
 
   return crypto.timingSafeEqual(
-      Buffer.from(signature),
-      Buffer.from(expectedSignature)
-    );
+    Buffer.from(signature),
+    Buffer.from(expectedSignature),
+  );
 }

@@ -1,6 +1,6 @@
 declare namespace NodeJS {
   interface ProcessEnv {
     APP_SECRET: string;
-    NEXT_PUBLIC_STREAM_DNS: string;
+    APP_BACKEND_DNS: string;
   }
 }

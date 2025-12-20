@@ -30,7 +30,10 @@
   "assist": {
     "actions": {
       "source": {
-        "organizeImports": "on"
+        "useSortedAttributes": "off",
+        "useSortedKeys": "off",
+        "useSortedProperties": "off",
+        "organizeImports": "off"
       }
     }
   }
