@@ -1,6 +1,6 @@
 export interface IListener {
   current: number;
-  peek: number;
+  peak: number;
 }
 
 export interface IRadio {
@@ -8,5 +8,4 @@ export interface IRadio {
   description: string;
   streamUrl: string;
   listener: IListener;
-  createAt: string;
 }

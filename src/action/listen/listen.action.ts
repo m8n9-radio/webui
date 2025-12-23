@@ -7,5 +7,5 @@ export async function likeAction(): Promise<IListener> {
 
   // TODO: Implement backend API call
 
-  return { peek: 2, current: 1 };
+  return { peak: 2, current: 1 };
 }

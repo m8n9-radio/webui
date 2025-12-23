@@ -1,7 +1,6 @@
 "use client";
 
 import type { FC } from "react";
-import { Image } from "@heroui/image";
 import { StreamTitile } from "@/components/player/StreamTitle";
 import { StreamUrl } from "@/components/player/StreamUrl";
 import type { IRadio } from "@/types/radio.types";
@@ -36,7 +35,7 @@ export const Player: FC<Readonly<Props>> = ({ radioInfo }) => {
       <CardBody className="relative w-full h-80">
         <Listener
           current={radioInfo.listener.current}
-          peek={radioInfo.listener.peek}
+          peak={radioInfo.listener.peak}
         />
         <StreamUrl
           streamTitle={metadata?.StreamTitle}

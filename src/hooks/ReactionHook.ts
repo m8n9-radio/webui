@@ -5,51 +5,55 @@ import { likeAction } from "@/action/like/like.action";
 import { dislikeAction } from "@/action/dislike/dislike.action";
 import { reactionAction } from "@/action/reaction/reaction.action";
 
-export const useReactionHook = (uid?: string | undefined) => {
+export const useReactionHook = (trackId?: string | undefined) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(
-    typeof uid === "undefined",
+    typeof trackId === "undefined",
   );
 
   const handleLike = async () => {
-    if (typeof uid === "undefined") {
+    if (typeof trackId === "undefined") {
       return;
     }
     setIsLoading(true);
     try {
-      await likeAction(uid);
+      const result = await likeAction(trackId);
+      if (result.success || result.error === "already_reacted") {
+        setIsDisabled(true);
+      }
     } finally {
-      setIsDisabled(true);
       setIsLoading(false);
     }
   };
 
   const handleDislike = async () => {
-    if (typeof uid === "undefined") {
+    if (typeof trackId === "undefined") {
       return;
     }
     setIsLoading(true);
     try {
-      await dislikeAction(uid);
+      const result = await dislikeAction(trackId);
+      if (result.success || result.error === "already_reacted") {
+        setIsDisabled(true);
+      }
     } finally {
-      setIsDisabled(true);
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (typeof uid !== "undefined") {
+    if (typeof trackId !== "undefined") {
       setIsLoading(true);
       setIsDisabled(true);
-      reactionAction(uid)
+      reactionAction(trackId)
         .then((response) => {
-          setIsDisabled(response);
+          setIsDisabled(response.hasReacted);
         })
         .finally(() => {
           setIsLoading(false);
         });
     }
-  }, [uid]);
+  }, [trackId]);
 
   return {
     isLoading,

@@ -4,7 +4,7 @@ import "@/assets/globals.css";
 import type { ReactNode } from "react";
 import { Navbar, NavbarBrand, NavbarContent } from "@heroui/navbar";
 import { cn } from "@/libs/cn.lib";
-import { fetch } from "@/app/(home)/(dynamic-components)/radio-info";
+import { fetchRadioInfo } from "@/app/(home)/(dynamic-components)/radio-info";
 import { fontLobster, fontOnest } from "@/libs/font.lib";
 import { Providers } from "@/provider";
 import { ThemeSwith } from "@/components/ThemeSwith";
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default async function ({ children }: Readonly<Props>) {
-  const { name } = await fetch();
+  const { name } = await fetchRadioInfo();
   return (
     <html lang="en" suppressHydrationWarning className="h-screen">
       <body
