@@ -22,7 +22,7 @@ export async function reactionAction(
 
   try {
     const response = await fetch(
-      `${process.env.APP_BACKEND_DNS}/reactions/check`,
+      `${process.env.APP_BACKEND_HOST}/reactions/check`,
       {
         method: "POST",
         headers: {

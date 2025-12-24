@@ -20,7 +20,7 @@ export async function likeAction(trackId: string): Promise<ReactionResult> {
 
   try {
     const response = await fetch(
-      `${process.env.APP_BACKEND_DNS}/reactions/like`,
+      `${process.env.APP_BACKEND_HOST}/reactions/like`,
       {
         method: "POST",
         headers: {

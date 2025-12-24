@@ -20,7 +20,7 @@ export async function dislikeAction(trackId: string): Promise<ReactionResult> {
 
   try {
     const response = await fetch(
-      `${process.env.APP_BACKEND_DNS}/reactions/dislike`,
+      `${process.env.APP_BACKEND_HOST}/reactions/dislike`,
       {
         method: "POST",
         headers: {

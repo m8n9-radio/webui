@@ -1,15 +1,23 @@
 import type { NextConfig } from "next";
 
-["APP_SECRET", "APP_BACKEND_DNS"].forEach((key: string) => {
+["APP_SECRET", "APP_BACKEND_HOST", "ALLOWED_ORIGINS"].forEach((key: string) => {
   if (typeof process.env[key] === "undefined") {
     throw Error(`Environment [${key}] is required`);
   }
 });
 
 const datetime = new Date().toISOString();
+
 const nextConfig: NextConfig = {
   reactStrictMode: process.env.NODE_ENV === "development",
   reactCompiler: true,
+  experimental: {
+    serverActions: {
+      allowedOrigins: (() =>
+        (process.env.ALLOWED_ORIGINS || "").split(",").filter(Boolean))(),
+      bodySizeLimit: "2mb",
+    },
+  },
   cacheComponents: true,
   cleanDistDir: true,
   poweredByHeader: false,
@@ -20,6 +28,7 @@ const nextConfig: NextConfig = {
   },
   logging: {
     fetches: {
+      hmrRefreshes: process.env.NODE_ENV === "development",
       fullUrl: process.env.NODE_ENV === "development",
     },
   },

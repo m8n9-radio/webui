@@ -5,7 +5,7 @@ import { PlayerWrapper } from "@/components/player/PlayerWrapper";
 import type { IRadio } from "@/types/radio.types";
 
 export async function fetchRadioInfo(): Promise<IRadio> {
-  const response = await fetch(`${process.env.APP_BACKEND_DNS}/radio/info`, {
+  const response = await fetch(`${process.env.APP_BACKEND_HOST}/radio/info`, {
     cache: "force-cache",
     next: { revalidate: 1000, tags: ["/radio/info"] },
   });
