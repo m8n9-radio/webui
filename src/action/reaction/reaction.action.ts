@@ -2,6 +2,8 @@
 
 import { cookies } from "next/headers";
 import type { CheckReactionResult } from "@/types/reaction.types";
+import { getReaction } from "@/http/tracks";
+import { verify } from "@/libs/uid.lib";
 
 export async function reactionAction(
   trackId: string,
@@ -9,43 +11,14 @@ export async function reactionAction(
   const cookieStore = await cookies();
   const uid = cookieStore.get("uid")?.value;
 
-  if (!uid) {
-    return { hasReacted: false };
-  }
-
-  // Extract user_id from UID cookie (first 32 characters before the dot)
-  const userId = uid.split(".")[0];
-
-  if (userId.length !== 32) {
+  if (!uid || !verify(uid)) {
     return { hasReacted: false };
   }
 
   try {
-    const response = await fetch(
-      `${process.env.APP_BACKEND_HOST}/reactions/check`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-cache",
-        body: JSON.stringify({
-          user_id: userId,
-          track_id: trackId,
-        }),
-      },
-    );
-
-    if (!response.ok) {
-      return { hasReacted: false };
-    }
-
-    const data = await response.json();
-
-    return {
-      hasReacted: data.has_reacted,
-      reaction: data.reaction,
-    };
+    const a = await getReaction(trackId, uid);
+    console.log(a, "================");
+    return a;
   } catch {
     return { hasReacted: false };
   }

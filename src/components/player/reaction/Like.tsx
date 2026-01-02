@@ -10,7 +10,7 @@ interface Props {
   handleClick: () => void;
 }
 
-export const Like: FC<Readonly<Props>> = ({
+export const Like: FC<Props> = ({
   isLoading,
   isDisabled,
   handleClick,

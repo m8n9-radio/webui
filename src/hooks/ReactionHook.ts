@@ -1,59 +1,58 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { likeAction } from "@/action/like/like.action";
 import { dislikeAction } from "@/action/dislike/dislike.action";
 import { reactionAction } from "@/action/reaction/reaction.action";
+import useSWR from "swr";
 
 export const useReactionHook = (trackId?: string | undefined) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isDisabled, setIsDisabled] = useState<boolean>(
-    typeof trackId === "undefined",
+  const [actionLoading, setActionLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(trackId, "================================");
+  }, [trackId]);
+
+  const { data, isLoading: swrLoading } = useSWR(
+    trackId ? ["/tracks/reaction", trackId] : null,
+    ([_, id]) => {
+      console.log("SWR fetcher called with trackId:", id);
+      return reactionAction(id);
+    },
   );
 
+  const isLoading = swrLoading || actionLoading;
+  const isDisabled = !trackId || data?.hasReacted || false;
+
   const handleLike = async () => {
-    if (typeof trackId === "undefined") {
+    if (!trackId) {
       return;
     }
-    setIsLoading(true);
+    setActionLoading(true);
     try {
       const result = await likeAction(trackId);
       if (result.success || result.error === "already_reacted") {
-        setIsDisabled(true);
+        // Optionally revalidate to update the state
       }
     } finally {
-      setIsLoading(false);
+      setActionLoading(false);
     }
   };
 
   const handleDislike = async () => {
-    if (typeof trackId === "undefined") {
+    if (!trackId) {
       return;
     }
-    setIsLoading(true);
+    setActionLoading(true);
     try {
       const result = await dislikeAction(trackId);
       if (result.success || result.error === "already_reacted") {
-        setIsDisabled(true);
+        // Optionally revalidate to update the state
       }
     } finally {
-      setIsLoading(false);
+      setActionLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (typeof trackId !== "undefined") {
-      setIsLoading(true);
-      setIsDisabled(true);
-      reactionAction(trackId)
-        .then((response) => {
-          setIsDisabled(response.hasReacted);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
-  }, [trackId]);
 
   return {
     isLoading,

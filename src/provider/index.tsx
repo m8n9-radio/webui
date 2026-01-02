@@ -6,10 +6,10 @@ import type { FC, ReactNode } from "react";
 import { ErrorBoundary } from "@/components/error-boundary/error-boundary.component";
 
 interface Props {
-  children: Readonly<ReactNode>;
+  children: ReactNode;
 }
 
-export const Providers: FC<Readonly<Props>> = ({ children }) => {
+export const Providers: FC<Props> = ({ children }) => {
   return (
     <ErrorBoundary>
       <HeroUIProvider className="h-screen">

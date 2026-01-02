@@ -10,7 +10,7 @@ interface Props {
   handleClick: () => void;
 }
 
-export const Dislike: FC<Readonly<Props>> = ({
+export const Dislike: FC<Props> = ({
   isLoading,
   isDisabled,
   handleClick,

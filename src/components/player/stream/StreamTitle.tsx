@@ -7,7 +7,7 @@ interface Props {
   streamTitle?: string | undefined;
 }
 
-export const StreamTitile: FC<Readonly<Props>> = ({
+export const StreamTitile: FC<Props> = ({
   isLoading,
   streamTitle,
 }) => {

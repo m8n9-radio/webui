@@ -8,7 +8,7 @@ interface Props {
   streamUrl?: string | undefined;
 }
 
-export const StreamUrl: FC<Readonly<Props>> = ({ streamTitle, streamUrl }) => {
+export const StreamUrl: FC<Props> = ({ streamTitle, streamUrl }) => {
   let src: string = streamUrl || "default.png";
   if (streamTitle === "Jingle - Thanks for listening") {
     src = "jingle.png";

@@ -10,7 +10,7 @@ interface Props {
   uid?: string | undefined;
 }
 
-export const Reaction: FC<Readonly<Props>> = ({ children, uid }) => {
+export const Reaction: FC<Props> = ({ children, uid }) => {
   const { isLoading, isDisabled, handleLike, handleDislike } =
     useReactionHook(uid);
   return (

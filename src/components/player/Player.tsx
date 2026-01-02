@@ -12,10 +12,10 @@ import { Reaction } from "@/components/player/reaction/Reaction";
 import { Listen } from "@/components/player/Listen";
 
 interface Props {
-  radioInfo: Readonly<IRadio>;
+  radioInfo: IRadio;
 }
 
-export const Player: FC<Readonly<Props>> = ({ radioInfo }) => {
+export const Player: FC<Props> = ({ radioInfo }) => {
   const { isLoading, isPlaying, metadata, uid, toggle } =
     usePlayerHook(radioInfo);
   return (

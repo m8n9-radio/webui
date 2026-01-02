@@ -7,7 +7,7 @@ interface Props {
   rowsCount?: number;
 }
 
-export const StatisticsSkeleton: FC<Readonly<Props>> = ({
+export const StatisticsSkeleton: FC<Props> = ({
   tabsCount = 5,
   rowsCount = 5,
 }) => {

@@ -4,7 +4,7 @@ import useSWR from "swr";
 import type { IStatistic } from "@/types/statistic.types";
 import { statisticsAction } from "@/action/statistics/statistics.action";
 
-export const useStatisticsHook = (initialData: readonly IStatistic[]) => {
+export const useStatisticsHook = (initialData: IStatistic[]) => {
   const { data } = useSWR("/statistics", statisticsAction, {
     fallbackData: initialData,
     revalidateOnMount: false,
@@ -13,5 +13,5 @@ export const useStatisticsHook = (initialData: readonly IStatistic[]) => {
     refreshInterval: 60000,
   });
 
-  return data || initialData;
+  return data ?? initialData;
 };

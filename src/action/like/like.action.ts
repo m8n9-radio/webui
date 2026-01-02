@@ -2,52 +2,25 @@
 
 import { cookies } from "next/headers";
 import type { ReactionResult } from "@/types/reaction.types";
+import { likeTrack } from "@/http/tracks";
+import { ConflictError } from "@/http/errors";
+import { verify } from "@/libs/uid.lib";
 
 export async function likeAction(trackId: string): Promise<ReactionResult> {
   const cookieStore = await cookies();
   const uid = cookieStore.get("uid")?.value;
 
-  if (!uid) {
-    return { success: false, error: "no_user_id" };
-  }
-
-  // Extract user_id from UID cookie (first 32 characters before the dot)
-  const userId = uid.split(".")[0];
-
-  if (userId.length !== 32) {
+  if (!uid || !verify(uid)) {
     return { success: false, error: "invalid_user_id" };
   }
 
   try {
-    const response = await fetch(
-      `${process.env.APP_BACKEND_HOST}/reactions/like`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-cache",
-        body: JSON.stringify({
-          user_id: userId,
-          track_id: trackId,
-        }),
-      },
-    );
-
-    if (response.status === 409) {
+    await likeTrack(trackId, uid);
+    return { success: true };
+  } catch (error) {
+    if (error instanceof ConflictError) {
       return { success: false, error: "already_reacted" };
     }
-
-    if (response.status === 404) {
-      return { success: false, error: "track_not_found" };
-    }
-
-    if (!response.ok) {
-      return { success: false, error: "server_error" };
-    }
-
-    return { success: true };
-  } catch {
-    return { success: false, error: "network_error" };
+    return { success: false, error: "server_error" };
   }
 }

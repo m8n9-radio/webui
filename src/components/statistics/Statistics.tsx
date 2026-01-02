@@ -16,10 +16,10 @@ import { useStatisticsHook } from "@/hooks/StatisticsHook";
 import { getIconComponent } from "@/icons/statistic.icon";
 
 interface Props {
-  statistics: Readonly<IStatistic[]>;
+  statistics: IStatistic[];
 }
 
-export const Statistics: FC<Readonly<Props>> = ({ statistics: initialData }) => {
+export const Statistics: FC<Props> = ({ statistics: initialData }) => {
   const statistics = useStatisticsHook(initialData);
 
   return (
@@ -29,7 +29,7 @@ export const Statistics: FC<Readonly<Props>> = ({ statistics: initialData }) => 
       variant="bordered"
       fullWidth
       className="pt-4"
-      items={statistics.concat()}
+      items={statistics}
     >
       {(statistic) => {
         const Icon = getIconComponent(statistic.icon);
@@ -49,9 +49,9 @@ export const Statistics: FC<Readonly<Props>> = ({ statistics: initialData }) => 
                 <TableColumn>Track</TableColumn>
                 <TableColumn>Action</TableColumn>
               </TableHeader>
-              <TableBody items={statistic.tracks.concat()}>
+              <TableBody items={statistic.tracks}>
                 {(track) => (
-                  <TableRow key={track.id}>
+                  <TableRow key={track.cover}>
                     <TableCell>
                       <User
                         avatarProps={{
@@ -61,6 +61,7 @@ export const Statistics: FC<Readonly<Props>> = ({ statistics: initialData }) => 
                           alt: track.title,
                         }}
                         name={track.title}
+                        description={<span>a:1, b:2</span>}
                       />
                     </TableCell>
                     <TableCell align="right">123</TableCell>

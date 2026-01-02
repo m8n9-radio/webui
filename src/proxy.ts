@@ -17,6 +17,7 @@ export function proxy(request: NextRequest) {
 
     response.cookies.set(_COOKIES_UID_KEY_, uid, {
       httpOnly: true,
+      path: "/",
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: 365 * 24 * 60 * 60 * 2, // 2 years

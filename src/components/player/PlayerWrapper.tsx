@@ -6,11 +6,11 @@ import type { IRadio } from "@/types/radio.types";
 import { PlayerSkeleton } from "@/components/player/PlayerSkeleton";
 
 interface Props {
-  radioInfo: Readonly<IRadio>;
+  radioInfo: IRadio;
 }
 
-export const PlayerWrapper: ComponentType<Readonly<Props>> = dynamic(
-  (): Promise<FC<Readonly<Props>>> =>
+export const PlayerWrapper: ComponentType<Props> = dynamic(
+  (): Promise<FC<Props>> =>
     import("@/components/player/Player").then((m) => m.Player),
   {
     ssr: false,

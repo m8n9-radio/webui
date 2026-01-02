@@ -1,9 +1,9 @@
 import type { FC } from "react";
 import { Statistics } from "@/components/statistics/Statistics";
-import { statisticsAction } from "@/action/statistics/statistics.action";
+import { getStatistics } from "@/http/radio";
 
 export const DynamicStatistics: FC = async () => {
-  const statistics = await statisticsAction();
+  const statistics = await getStatistics();
 
   return <Statistics statistics={statistics} />;
 };

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { MoonIcon, SunIcon } from "@/icons/theme.icon";
 import { cn } from "@/libs/cn.lib";
 
-export const ThemeSwith = () => {
+export const ThemeSwitch = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
 
